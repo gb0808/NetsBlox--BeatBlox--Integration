@@ -153,7 +153,7 @@ SpriteMorph.prototype.categories =
         'control',
         'looks',
         'sensing',
-        'sound',
+        'music',
         'operators',
         'pen',
         'variables',
@@ -164,7 +164,7 @@ SpriteMorph.prototype.categories =
 SpriteMorph.prototype.blockColor = {
     motion : new Color(74, 108, 212),
     looks : new Color(143, 86, 227),
-    sound : new Color(207, 74, 217),
+    music : new Color(118, 28, 156),
     pen : new Color(0, 161, 120),
     control : new Color(230, 168, 34),
     sensing : new Color(4, 148, 220),
@@ -463,133 +463,143 @@ SpriteMorph.prototype.initBlocks = function () {
             spec: 'console log %mult%s'
         },
 
-        // Sound
-        playSound: {
+        // Music
+        setInstrument: {
             type: 'command',
-            category: 'sound',
-            spec: 'play sound %snd'
+            category: 'music',
+            spec: 'set instrument %instrument'
         },
-        doPlaySoundUntilDone: {
+        setKey: {
             type: 'command',
-            category: 'sound',
-            spec: 'play sound %snd until done'
+            category: 'music',
+            spec: 'set key %keySig',
+            defaults: ['CMajor']
         },
-        doPlaySoundAtRate: {
+        setBPM: {
             type: 'command',
-            category: 'sound',
-            spec: 'play sound %snd at %rate Hz',
-            defaults: ['', 44100]
-        },
-        doStopAllSounds: {
-            type: 'command',
-            category: 'sound',
-            spec: 'stop all sounds'
-        },
-        reportGetSoundAttribute: {
-            type: 'reporter',
-            category: 'sound',
-            spec: '%aa of sound %snd',
-            defaults: [['duration']]
-        },
-        reportNewSoundFromSamples: {
-            type: 'reporter',
-            category: 'sound',
-            spec: 'new sound %l rate %rate Hz',
-            defaults: [null, 44100]
-        },
-        doRest: {
-            type: 'command',
-            category: 'sound',
-            spec: 'rest for %n beats',
-            defaults: [0.2]
-        },
-        doPlayNote: {
-            type: 'command',
-            category: 'sound',
-            spec: 'play note %note for %n beats',
-            defaults: [60, 0.5]
-        },
-        doPlayFrequency: { // only in dev mode - experimental
-            dev: true,
-            type: 'command',
-            category: 'sound',
-            spec: 'play %n Hz for %n secs',
-            defaults: [440, 2]
-        },
-        doSetInstrument: {
-            type: 'command',
-            category: 'sound',
-            spec: 'set instrument to %inst',
-            defaults: [1]
-        },
-        doChangeTempo: {
-            type: 'command',
-            category: 'sound',
-            spec: 'change tempo by %n',
-            defaults: [20]
-        },
-        doSetTempo: {
-            type: 'command',
-            category: 'sound',
-            spec: 'set tempo to %n bpm',
+            category: 'music',
+            spec: 'set tempo %n bpm',
             defaults: [60]
         },
-        getTempo: {
+        getBPM: {
             type: 'reporter',
-            category: 'sound',
-            spec: 'tempo'
+            category: 'music',
+            spec: 'tempo',
         },
-        changeVolume: {
+        playNotes: {
             type: 'command',
-            category: 'sound',
-            spec: 'change volume by %n',
-            defaults: [10]
+            category: 'music',
+            spec: 'play %noteDuration note %mult%s',
+            defaults: [['Quarter'], ['C4']]
         },
-        setVolume: {
+        playDrums: {
             type: 'command',
-            category: 'sound',
-            spec: 'set volume to %n %',
-            defaults: [100]
+            category: 'music',
+            spec: 'hit %noteDuration note drums %mult%drum',
+            defaults: [['Quarter'], ['Rest']]
         },
-        getVolume: {
+        rest: {
+            type: 'command',
+            category: 'music',
+            spec: 'rest %noteDuration',
+            defaults: ['Quarter']
+        },
+        noteMod: {
+            type: 'command',
+            category: 'music',
+            spec: 'note modifiers %mult%noteModifier %c'
+        },
+        tieDuration: {
             type: 'reporter',
-            category: 'sound',
-            spec: 'volume'
+            category: 'music',
+            spec: 'tie %mult%noteDuration',
+            defaults: [['Quarter']]
         },
-        changePan: {
-            type: 'command',
-            category: 'sound',
-            spec: 'change balance by %n',
-            defaults: [10]
-        },
-        setPan: {
-            type: 'command',
-            category: 'sound',
-            spec: 'set balance to %n',
-            defaults: [0]
-        },
-        getPan: {
+        noteNumber: {
             type: 'reporter',
-            category: 'sound',
-            spec: 'balance'
+            category: 'music',
+            spec: 'note# %s',
+            defaults: ['C4']
         },
-        playFreq: {
-            type: 'command',
-            category: 'sound',
-            spec: 'play frequency %n Hz',
-            defaults: [440]
+        chordNotes: {
+            type: 'reporter',
+            category: 'music',
+            spec: '%s %chordType chord',
+            defaults: ['C4', ['Major']]
         },
-        stopFreq: {
+        scaleNotes: {
+            type: 'reporter',
+            category: 'music',
+            spec: '%s %scaleType chord',
+            defaults: ['C4', ['Major']]
+        },
+        playClip: {
             type: 'command',
-            category: 'sound',
-            spec: 'stop frequency'
+            category: 'music',
+            spec: 'play sound %snd'
+        },
+        queryClip: {
+            type: 'command',
+            category: 'music',
+            spec: '%audioQuery of sound %snd',
+            defaults: ['samples']
+        },
+        audioAnalysis: {
+            type: 'reporter',
+            category: 'music',
+            spec: 'output %audioAnalysis',
+            defaults: ['samples']
+        },
+        createClip: {
+            type: 'reporter',
+            category: 'music',
+            spec: 'samples %l at %n Hz',
+            defaults: [null, 44100]
+        },
+        setAudioEffect: {
+            type: 'command',
+            category: 'music',
+            spec: 'set %audioEffect effect to %n %',
+            defaults: ['Volume', 100]
+        },
+        getAudioEffect: {
+            type: 'reporter',
+            category: 'music',
+            spec: 'get %audioEffectAug effect',
+            defaults: ['Volume']
+        },
+        clearAudioEffects: {
+            type: 'command',
+            category: 'music',
+            spec: 'clear audio effects'
+        },
+        setAudioInput: {
+            type: 'command',
+            category: 'music',
+            spec: 'use input %audioInput'
+        },
+        startRecording: {
+            type: 'command',
+            category: 'music',
+            spec: 'start recording %io',
+            defaults: ['output']
+        },
+        finishRecording: {
+            type: 'reporter',
+            category: 'music',
+            spec: 'finish recording',
+        },
+        isRecording: {
+            type: 'predicate',
+            category: 'music',
+            spec: 'recording?',
         },
 
         // Sound - Debugging primitives for development mode
         reportSounds: {
             dev: true,
             type: 'reporter',
-            category: 'sound',
+            category: 'music',
             spec: 'jukebox'
         },
 
@@ -1828,7 +1838,7 @@ SpriteMorph.prototype.init = function (globals) {
     this.costumes.type = 'costume';
     this.costume = null;
     this.sounds = new List();
-    this.sounds.type = 'sound';
+    this.sounds.type = 'music';
     this.normalExtent = new Point(60, 60); // only for costume-less situation
     this.scale = 1;
     this.rotationStyle = 1; // 1 = full, 2 = left/right, 0 = off
@@ -2482,37 +2492,39 @@ SpriteMorph.prototype.blockTemplates = function (category) {
 
     /////////////////////////////////
 
-    } else if (cat === 'sound') {
+    } else if (cat === 'music') {
 
-        blocks.push(block('playSound'));
-        blocks.push(block('doPlaySoundUntilDone'));
-        blocks.push(block('doStopAllSounds'));
+        blocks.push(block('setInstrument'));
+        blocks.push(block('setKey'));
+        blocks.push(block('setBPM'));
+        blocks.push(block('getBPM'));
         blocks.push('-');
-        blocks.push(block('doPlaySoundAtRate'));
-        blocks.push(block('reportGetSoundAttribute'));
-        blocks.push(block('reportNewSoundFromSamples'));
+        blocks.push(block('playNotes'));
+        blocks.push(block('playDrums'));
+        blocks.push(block('rest'));
+        blocks.push(block('noteMod'));
+        blocks.push(block('tieDuration'));
         blocks.push('-');
-        blocks.push(block('doRest'));
-        blocks.push(block('doPlayNote'));
-        blocks.push(block('doSetInstrument'));
+        blocks.push(block('noteNumber'));
+        blocks.push(block('chordNotes'));
+        blocks.push(block('scaleNotes'));
         blocks.push('-');
-        blocks.push(block('doChangeTempo'));
-        blocks.push(block('doSetTempo'));
-        blocks.push(watcherToggle('getTempo'));
-        blocks.push(block('getTempo'));
+        blocks.push(block('playClip'));
+        blocks.push(block('queryClip'));
+        blocks.push(block('audioAnalysis'));
+        blocks.push(block('createClip'));
         blocks.push('-');
-        blocks.push(block('changeVolume'));
-        blocks.push(block('setVolume'));
-        blocks.push(watcherToggle('getVolume'));
-        blocks.push(block('getVolume', this.inheritsAttribute('volume')));
+        blocks.push(block('setAudioEffect'));
+        blocks.push(block('getAudioEffect'));
+        blocks.push(block('clearAudioEffects'));
         blocks.push('-');
-        blocks.push(block('changePan'));
-        blocks.push(block('setPan'));
-        blocks.push(watcherToggle('getPan'));
-        blocks.push(block('getPan', this.inheritsAttribute('balance')));
+        blocks.push(block('setAudioInput'));
+        blocks.push(block('startRecording'));
+        blocks.push(block('finishRecording'));
+        blocks.push(block('isRecording'));
         blocks.push('-');
-        blocks.push(block('playFreq'));
-        blocks.push(block('stopFreq'));
+        blocks.push(this.makeBeatButton());
+        blocks.push(this.editBeatButton());
 
     // for debugging: ///////////////
 
@@ -3037,6 +3049,52 @@ SpriteMorph.prototype.makeBlock = function () {
         this.world()
     );
 };
+
+SpriteMorph.prototype.makeBeatButton = function () {
+    	// answer a button that prompts the user to make a new block
+    var button = new PushButtonMorph(
+        this,
+		'makeBeat',
+        'Make a beat'
+    );
+
+    button.userMenu = function () {
+        var menu = new MenuMorph(this);
+        menu.addItem('help...', 'showHelp');
+        return menu;
+    };
+
+    button.selector = 'addCustomBeat';
+    button.showHelp = BlockMorph.prototype.showHelp;
+    return button;
+}
+
+SpriteMorph.prototype.makeBeat = function () {
+    // TODO
+}
+
+SpriteMorph.prototype.editBeatButton = function () {
+    	// answer a button that prompts the user to make a new block
+    var button = new PushButtonMorph(
+        this,
+		'editBeat',
+        'Edit a beat'
+    );
+
+    button.userMenu = function () {
+        var menu = new MenuMorph(this);
+        menu.addItem('help...', 'showHelp');
+        return menu;
+    };
+
+    button.selector = 'editCustomBeat';
+    button.showHelp = BlockMorph.prototype.showHelp;
+    return button;
+}
+
+SpriteMorph.prototype.editBeat = function () {
+    // TODO
+}
 
 SpriteMorph.prototype.palette = function (category) {
     if (!this.paletteCache[category]) {
@@ -8950,37 +9008,39 @@ StageMorph.prototype.blockTemplates = function (category) {
 
     /////////////////////////////////
 
-    } else if (cat === 'sound') {
+    } else if (cat === 'music') {
 
-        blocks.push(block('playSound'));
-        blocks.push(block('doPlaySoundUntilDone'));
-        blocks.push(block('doStopAllSounds'));
+                blocks.push(block('setInstrument'));
+        blocks.push(block('setKey'));
+        blocks.push(block('setBPM'));
+        blocks.push(block('getBPM'));
         blocks.push('-');
-        blocks.push(block('doPlaySoundAtRate'));
-        blocks.push(block('reportGetSoundAttribute'));
-        blocks.push(block('reportNewSoundFromSamples'));
+        blocks.push(block('playNotes'));
+        blocks.push(block('playDrums'));
+        blocks.push(block('rest'));
+        blocks.push(block('noteMod'));
+        blocks.push(block('tieDuration'));
         blocks.push('-');
-        blocks.push(block('doRest'));
-        blocks.push(block('doPlayNote'));
-        blocks.push(block('doSetInstrument'));
+        blocks.push(block('noteNumber'));
+        blocks.push(block('chordNotes'));
+        blocks.push(block('scaleNotes'));
         blocks.push('-');
-        blocks.push(block('doChangeTempo'));
-        blocks.push(block('doSetTempo'));
-        blocks.push(watcherToggle('getTempo'));
-        blocks.push(block('getTempo'));
+        blocks.push(block('playClip'));
+        blocks.push(block('queryClip'));
+        blocks.push(block('audioAnalysis'));
+        blocks.push(block('createClip'));
         blocks.push('-');
-        blocks.push(block('changeVolume'));
-        blocks.push(block('setVolume'));
-        blocks.push(watcherToggle('getVolume'));
-        blocks.push(block('getVolume'));
+        blocks.push(block('setAudioEffect'));
+        blocks.push(block('getAudioEffect'));
+        blocks.push(block('clearAudioEffects'));
         blocks.push('-');
-        blocks.push(block('changePan'));
-        blocks.push(block('setPan'));
-        blocks.push(watcherToggle('getPan'));
-        blocks.push(block('getPan'));
+        blocks.push(block('setAudioInput'));
+        blocks.push(block('startRecording'));
+        blocks.push(block('finishRecording'));
+        blocks.push(block('isRecording'));
         blocks.push('-');
-        blocks.push(block('playFreq'));
-        blocks.push(block('stopFreq'));
+        blocks.push(this.makeBeatButton());
+        blocks.push(this.editBeatButton());
 
     // for debugging: ///////////////
 
@@ -9734,6 +9794,10 @@ StageMorph.prototype.paletteColor = SpriteMorph.prototype.paletteColor;
 StageMorph.prototype.setName = SpriteMorph.prototype.setName;
 StageMorph.prototype.makeBlockButton = SpriteMorph.prototype.makeBlockButton;
 StageMorph.prototype.makeBlock = SpriteMorph.prototype.makeBlock;
+StageMorph.prototype.makeBeatButton = SpriteMorph.prototype.makeBeatButton;
+StageMorph.prototype.makeBeat = SpriteMorph.prototype.makeBeat;
+StageMorph.prototype.editBeatButton = SpriteMorph.prototype.editBeatButton;
+StageMorph.prototype.editBeat = SpriteMorph.prototype.editBeat;
 StageMorph.prototype.palette = SpriteMorph.prototype.palette;
 StageMorph.prototype.freshPalette = SpriteMorph.prototype.freshPalette;
 StageMorph.prototype.blocksMatching = SpriteMorph.prototype.blocksMatching;

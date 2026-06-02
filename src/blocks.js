@@ -1188,6 +1188,84 @@ SyntaxElementMorph.prototype.labelParts = {
         min: 2,
         infix: 'max',
         collapse: 'maximum'
+    },
+
+    // music types
+    '%instrument': {
+        type: 'input',
+        tags: 'read-only static',
+        menu: 'instrumentMenu'
+    },
+    '%keySig': {
+        type: 'input',
+        tags: 'read-only static',
+        menu: 'keySigMenu'
+    },
+    '%noteDuration': {
+        type: 'input',
+        tags: 'read-only static',
+        menu: 'noteDurationMenu'
+    },
+    '%drum': {
+        type: 'input',
+        tags: 'read-only static',
+        menu: 'drumMenu'
+    },
+    '%noteModifier': {
+        type: 'input',
+        tags: 'read-only static',
+        menu: 'noteModifierMenu'
+    },
+    '%chordType': {
+        type: 'input',
+        tags: 'read-only static',
+        menu: 'chordTypeMenu'
+    },
+    '%scaleType': {
+        type: 'input',
+        tags: 'read-only static',
+        menu: 'scaleTypeMenu'
+    },
+    '%audioQuery': {
+        type: 'input',
+        tags: 'read-only static',
+        menu: {
+            'name': ['name'],
+            'duration': ['duration'],
+            'samples': ['samples'],
+            'sample rate': ['sample rate']
+        }
+    },
+    '%audioAnalysis': {
+        type: 'input',
+        tags: 'read-only static',
+        menu: {
+            'samples': ['samples'],
+            'spectrum': ['spectrum']
+        }
+    },
+    '%audioEffect': {
+        type: 'input',
+        tags: 'read-only static',
+        menu: 'audioEffectMenu'       
+    },
+    '%audioEffectAug': {
+        type: 'input',
+        tags: 'read-only static',
+        menu: 'audioEffectAugMenu'   
+    },
+    '%audioInput': {
+        type: 'input',
+        tags: 'read-only static',
+        menu: 'audioInputMenu'   
+    },
+    '%io': {
+        type: 'input',
+        tags: 'read-only static',
+        menu: {
+            'input': ['input'],
+            'output': ['output']
+        }
     }
 };
 
@@ -2719,6 +2797,9 @@ BlockSymbolMorph.prototype.getShadowRenderColor = function () {
     special form: input name
 
     %inputName   - variable blob (used in input type dialog)
+
+    music:
+    %instrument  - available instrument names
 
     examples:
 
@@ -9980,6 +10061,48 @@ InputSlotMorph.prototype.audioMenu = function () {
     }
     return dict;
 };
+
+// BeatBlox additions - TODO
+
+InputSlotMorph.prototype.instrumentMenu = function () {
+    return { 'default': ['default'] }
+}
+
+InputSlotMorph.prototype.keySigMenu = function () {
+    return { 'default': ['default'] }
+}
+
+InputSlotMorph.prototype.noteDurationMenu = function () {
+    return { 'default': ['default'] }
+}
+
+InputSlotMorph.prototype.drumMenu = function () {
+    return { 'default': ['default'] }
+}
+
+InputSlotMorph.prototype.noteModifierMenu = function () {
+    return { 'default': ['default'] }
+}
+
+InputSlotMorph.prototype.chordTypeMenu = function () {
+    return { 'default': ['default'] }
+}
+
+InputSlotMorph.prototype.scaleTypeMenu = function () {
+    return { 'default': ['default'] }
+}
+
+InputSlotMorph.prototype.audioEffectMenu = function () {
+    return { 'default': ['default'] }
+}
+
+InputSlotMorph.prototype.audioEffecAugMenu = function () {
+    return { 'default': ['default'] }
+}
+
+InputSlotMorph.prototype.audioInputMenu = function () {
+    return { 'default': ['default'] }
+}
 
 // InputSlotMorph layout:
 
